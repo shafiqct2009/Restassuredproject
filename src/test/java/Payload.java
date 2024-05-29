@@ -1,6 +1,8 @@
 import io.restassured.RestAssured;
+import io.restassured.http.Method;
 import io.restassured.internal.path.json.mapping.JsonObjectDeserializer;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import netscape.javascript.JSObject;
 import org.json.simple.JSONObject;
@@ -16,14 +18,25 @@ public class Payload {
         RestAssured.baseURI = "https://reqres.in";
         RequestSpecification request = RestAssured.given();
         request.header("Content-Type", "application/json");
+
         JSONObject jo = new JSONObject();
 
-
-
         jo.put("name","Shafiq");
+
         jo.put("id","QA");
-        request.body(jo.toJSONString());
-        Response response = request.request("/api/users");
+
+        request.body(jo.toString());
+        Response response = request.request("/api/users?page=2");
+
+        System.out.println(jo.toString());
+
+    //System.out.println("===================================");
+
+
+    Response s = request.request(Method.GET,"application/json");
+    ResponseBody bodyB = s.getBody();
+    String B = bodyB.asPrettyString();
+    System.out.println(bodyB.asPrettyString());
 
 
 
